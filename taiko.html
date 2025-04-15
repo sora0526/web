@@ -69,7 +69,7 @@
 </head>
 <body>
   <h2>音符と小節線アプリ（Backspace削除、PDF保存）</h2>
-  <p>キー：1=ドン,2=ドコ,3=三連符,4=バラバラ,r1=スト,r2=スッテケ,r3=ヨカッタ,5=テンツク,$1=四分休符,$2=二分休符,$4=全休符</p>
+  <p>キー：1=ドン,2=ドコ,3=三連符,4=バラバラ,r=スト,ro=スッテケ,rt=ヨカッタ,5=テンツク,$o=四分休符,$t=二分休符,$f=全休符</p>
   <p>4つごとに小節線、16個ごとに改行。</p>
   <button onclick="downloadPDF()">PDFとして保存</button>
 
@@ -90,16 +90,16 @@
     '2': 'doko.png',
     '3': 'dadada.png',
     '4': 'barabara.png',
-    'r1': 'suto.png',
-    'r2': 'suteke.png',
-    'r3': 'yokatta.png',
+    'r': 'suto.png',
+    'ro': 'suteke.png',
+    'rt': 'yokatta.png',
     '5': 'tentuku.png',
-    '$1': 'kyuhu.png',
-    '$2': 'hatto.png',
-    '$3': 'bath.png',
+    '$o': 'kyuhu.png',
+    '$t': 'hatto.png',
+    '$f': 'bath.png',
     
-    '[': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Repeat_Sign_Left.svg/20px-Repeat_Sign_Left.svg.png',
-    ']': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Repeat_Sign_Right.svg/20px-Repeat_Sign_Right.svg.png'
+    '[': 'ripito.png',
+    ']': 'ripito2.png'
   };
 
   const maxPerLine = 16;
@@ -201,7 +201,7 @@
         addNoteImage(imageMap['5']);
       } else if (event.key === '[' || event.key === ']') {
         addNoteImage(imageMap[event.key], true);
-      } else if (event.key === 'r1' || event.key === 'r2' || event.key === 'r3') {
+      } else if (event.key === 'r' || event.key === 'ro' || event.key === 'rt') {
         addNoteImage(imageMap[event.key]);
       }
     });
