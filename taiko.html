@@ -69,7 +69,7 @@
 </head>
 <body>
   <h2>音符と小節線アプリ（Backspace削除、PDF保存）</h2>
-  <p>キー：1=ドン,2=ドコ,3=三連符,4=バラバラ,ro=スト,rt=スッテケ,rh=ヨカッタ,5=テンツク,$o=四分休符,$t=二分休符,$f=全休符</p>
+  <p>キー：1=ドン,2=ドコ,3=三連符,4=バラバラ,o=スト,t=スッテケ,h=ヨカッタ,5=テンツク,q=四分休符,w=二分休符,e=全休符</p>
   <p>4つごとに小節線、16個ごとに改行。</p>
   <button onclick="downloadPDF()">PDFとして保存</button>
 
@@ -90,13 +90,13 @@
     '2': 'doko.png',
     '3': 'dadada.png',
     '4': 'barabara.png',
-    'ro': 'suto.png',
-    'rt': 'suteke.png',
-    'rh': 'yokatta.png',
+    'o': 'suto.png',
+    't': 'suteke.png',
+    'h': 'yokatta.png',
     '5': 'tentuku.png',
-    '$o': 'kyuhu.png',
-    '$t': 'hatto.png',
-    '$f': 'bath.png',
+    'q': 'kyuhu.png',
+    'w': 'hatto.png',
+    'e': 'bath.png',
     
     '[': 'ripito.png',
     ']': 'ripito2.png'
@@ -201,7 +201,7 @@
         addNoteImage(imageMap['5']);
       } else if (event.key === '[' || event.key === ']') {
         addNoteImage(imageMap[event.key], true);
-      } else if (event.key === 'ro' || event.key === 'rt' || event.key === 'rh') {
+      } else if (event.key === 'o' || event.key === 't' || event.key === 'h' || event.key === 'q' || event.key === 'w' || event.key === 'e') {
         addNoteImage(imageMap[event.key]);
       }
     });
