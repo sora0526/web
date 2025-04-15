@@ -201,6 +201,8 @@
         addNoteImage(imageMap['5']);
       } else if (event.key === '[' || event.key === ']') {
         addNoteImage(imageMap[event.key], true);
+      } else if (event.key === 'r1' || event.key === 'r2' || event.key === 'r3') {
+        addNoteImage(imageMap[event.key]);
       }
     });
 
