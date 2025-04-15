@@ -1,10 +1,94 @@
-<html>
-<!-- 省略: head, styleはこれまでと同じです -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>太鼓楽譜作成アプリ</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    button {
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+
+    .staff-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .staff {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+
+    .line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: black;
+    }
+
+    .line:nth-child(1) { top: 20px; }
+    .line:nth-child(2) { top: 40px; }
+    .line:nth-child(3) { top: 60px; }
+    .line:nth-child(4) { top: 80px; }
+    .line:nth-child(5) { top: 100px; }
+
+    .image-row {
+      display: flex;
+      gap: 10px;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      align-items: center;
+    }
+
+    .note-img {
+      width: 40px;
+      height: auto;
+    }
+
+    .bar-line {
+      width: 2px;
+      height: 60px;
+      background-color: black;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>音符と小節線アプリ（Backspace削除、PDF保存）</h2>
+  <p>キー：1=ドン,2=ドコ,3=三連符,4=バラバラ,r1=スト,r2=スッテケ,r3=ヨカッタ,1-2=テンツク,$1=四分休符,$2=二分休符,$4=全休符</p>
+  <p>4つごとに小節線、16個ごとに改行。</p>
+  <button onclick="downloadPDF()">PDFとして保存</button>
+
+  <div class="staff-container" id="staff-container">
+    <div class="staff">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="image-row"></div>
+    </div>
+  </div>
+
 <script>
   const imageMap = {
     1: 'don.png',
     2: 'doko.png,
-    2/3: 'dadada.png',
+    3: 'dadada.png',
     4: 'barabara.png',
     r1: 'suto.png'
     r2: 'suteke.png'
