@@ -1,0 +1,125 @@
+html
+<!-- 省略: head, styleはこれまでと同じです -->
+<script>
+  const imageMap = {
+    1: 'don.png',
+    2: 'doko.png,
+    2/3: 'dadada.png',
+    4: 'barabara.png',
+    r1: 'suto.png'
+    r2: 'suteke.png'
+    r3: 'yokatta.png'
+    1-2: 'tentuku.png'
+    $1: 'kyuhu.png'
+    $2: 'hatto.png'
+    $3: 'bath.png'
+    
+    '[': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Repeat_Sign_Left.svg/20px-Repeat_Sign_Left.svg.png',
+    ']': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Repeat_Sign_Right.svg/20px-Repeat_Sign_Right.svg.png'
+  };
+
+  const maxPerLine = 16;
+  const staffContainer = document.getElementById('staff-container');
+  let noteCountInCurrentLine = 0;
+
+  function getCurrentRow() {
+    const staffs = staffContainer.getElementsByClassName('staff');
+    return staffs[staffs.length - 1].querySelector('.image-row');
+  }
+
+  function addNoteImage(src, isRepeat = false) {
+    if (noteCountInCurrentLine >= maxPerLine && !isRepeat) {
+      addNewStaffRow();
+      noteCountInCurrentLine = 0;
+    }
+
+    const currentRow = getCurrentRow();
+
+    // 小節線を追加（ただしリピートは除外）
+    if (!isRepeat && noteCountInCurrentLine > 0 && noteCountInCurrentLine % 4 === 0) {
+      const barLine = document.createElement('div');
+      barLine.className = 'bar-line';
+      currentRow.appendChild(barLine);
+    }
+
+    const img = document.createElement('img');
+    img.src = src;
+    img.className = 'note-img';
+    currentRow.appendChild(img);
+
+    if (!isRepeat) {
+      noteCountInCurrentLine++;
+    }
+  }
+
+  function addNewStaffRow() {
+    const staff = document.createElement('div');
+    staff.className = 'staff';
+    for (let i = 0; i < 5; i++) {
+      const line = document.createElement('div');
+      line.className = 'line';
+      staff.appendChild(line);
+    }
+
+    const row = document.createElement('div');
+    row.className = 'image-row';
+    staff.appendChild(row);
+    staffContainer.appendChild(staff);
+  }
+
+  function removeLastNote() {
+    const currentRow = getCurrentRow();
+    const children = currentRow.children;
+
+    if (children.length > 0) {
+      const last = children[children.length - 1];
+
+      // 小節線が直前にある場合も削除
+      if (last.classList.contains('note-img') && children.length >= 2) {
+        const secondLast = children[children.length - 2];
+        if (secondLast.classList.contains('bar-line')) {
+          currentRow.removeChild(last);
+          currentRow.removeChild(secondLast);
+          noteCountInCurrentLine--;
+          return;
+        }
+      }
+
+      if (last.classList.contains('note-img')) {
+        currentRow.removeChild(last);
+        noteCountInCurrentLine--;
+      } else {
+        currentRow.removeChild(last);
+      }
+    } else {
+      const staffs = staffContainer.getElementsByClassName('staff');
+      if (staffs.length > 1) {
+        staffContainer.removeChild(staffs[staffs.length - 1]);
+        noteCountInCurrentLine = maxPerLine;
+      }
+    }
+  }
+
+  document.addEventListener('keydown', (event) => {
+    const key = event.key;
+    if (key === 'Backspace') {
+      event.preventDefault();
+      removeLastNote();
+    } else if (imageMap[key]) {
+      const isRepeat = (key === '[' || key === ']');
+      addNoteImage(imageMap[key], isRepeat);
+    }
+  });
+
+  function downloadPDF() {
+    const element = document.getElementById('staff-container');
+    const opt = {
+      margin:       0.5,
+      filename:     'music_with_repeats.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+  }
+</script>
