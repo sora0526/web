@@ -184,16 +184,25 @@
     }
   }
 
-  document.addEventListener('keydown', (event) => {
-    const key = event.key;
-    if (key === 'Backspace') {
-      event.preventDefault();
-      removeLastNote();
-    } else if (imageMap[key]) {
-      const isRepeat = (key === '[' || key === ']');
-      addNoteImage(imageMap[key], isRepeat);
-    }
-  });
+ document.addEventListener('keydown', (event) => {
+      const code = event.code;
+      if (event.key === 'Backspace') {
+        event.preventDefault();
+        removeLastNote();
+      } else if (code === 'Digit1') {
+        addNoteImage(imageMap['1']);
+      } else if (code === 'Digit2') {
+        addNoteImage(imageMap['2']);
+      } else if (code === 'Digit4') {
+        addNoteImage(imageMap['4']);
+      }  else if (code === 'Digit3') {
+        addNoteImage(imageMap['3']);
+      } else if (code === 'Digit5') {
+        addNoteImage(imageMap['5']);
+      } else if (event.key === '[' || event.key === ']') {
+        addNoteImage(imageMap[event.key], true);
+      }
+    });
 
   function downloadPDF() {
     const element = document.getElementById('staff-container');
